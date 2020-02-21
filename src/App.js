@@ -1,26 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import ListPokemon from "./components/ListPokemon/ListPokemon.component";
+import CatchPokemon from "./components/CatchPokemon/CatchPokemon.component";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: "",
+			pokemons: []
+		};
+		this.catchEmAll = this.catchEmAll.bind(this);
+	}
+
+	handleChange = event => {
+		console.log(event);
+		this.setState({ [event.target.name]: event.target.value.toLowerCase() });
+	};
+
+	catchEmAll(event) {
+		event.preventDefault();
+		fetch(`https://pokeapi.co/api/v2/pokemon/${this.state.name}/`)
+			.then(res => res.json())
+			.then(data => {
+				this.setState({
+					pokemons: this.state.pokemons.concat(data)
+				});
+			})
+			.catch(console.log);
+	}
+
+	render() {
+		let pokeData = this.state.pokemons;
+		console.log(pokeData);
+		return (
+			<div className="App">
+				{pokeData.length ? (
+					<ListPokemon pokemon={pokeData} />
+				) : (
+					<span className="empty">No Pokemons captured yet</span>
+				)}
+				<CatchPokemon
+					onClick={this.catchEmAll}
+					handleChange={this.handleChange}
+					state={this.state}
+				/>
+			</div>
+		);
+	}
 }
 
 export default App;

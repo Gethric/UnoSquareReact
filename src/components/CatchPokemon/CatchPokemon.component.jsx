@@ -1,7 +1,6 @@
 import React from "react";
 
 const CatchPokemon = props => {
-	console.log(props);
 	return (
 		<div className="catch_pokemon">
 			<input

@@ -14,7 +14,6 @@ class App extends React.Component {
 	}
 
 	handleChange = event => {
-		console.log(event);
 		this.setState({ [event.target.name]: event.target.value.toLowerCase() });
 	};
 
@@ -32,7 +31,7 @@ class App extends React.Component {
 
 	render() {
 		let pokeData = this.state.pokemons;
-		console.log(pokeData);
+
 		return (
 			<div className="App">
 				{pokeData.length ? (
